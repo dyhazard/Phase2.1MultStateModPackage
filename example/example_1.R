@@ -40,7 +40,7 @@ library(Phase2.1MultStateModPackage)
 render(file.path(system.file("rmd", "4CE_Phase21_MSM.Rmd", package = "Phase2.1MultStateModPackage")), output_file = paste(site_name,"_MSM"),
        output_dir = dir.output, knit_root_dir = workd1, envir = parent.frame(), params = list(dir_LPS = dir.LocPatSum, admin_censor = last_date))
 
-# Create object with aggregated results
+                                                                                                                            # Create object with aggregated results
 final_results <- save_results()
 
 # Save results in output directory
