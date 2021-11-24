@@ -10,7 +10,7 @@ User needs to enter to 4 values noted with "### Enter own value"
 3. Directory with the LocalPatientSummary.csv file ("dir.LocPatSum")
 4. Directory for the output (dir.output)
 
-Note: Missing dates in the LocalPatientSummary.csv should be given "1900-01-01"
+Note: Missing values in the LocalPatientSummary.csv should be given "NA"
 
 # Run the following script in R 
 
