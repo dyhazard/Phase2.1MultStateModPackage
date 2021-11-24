@@ -18,7 +18,7 @@ Note: Missing dates in the LocalPatientSummary.csv should be given "1900-01-01"
 rm(list=ls())
 
 
-devtools::install_github("https://github.com/dyhazard/4CE_Phase2.1_MultStateModPackage", upgrade=FALSE, ref="main", force=T)
+devtools::install_github("https://github.com/dyhazard/Phase2.1MultStateModPackage", upgrade=FALSE, ref="master", force=T)
 
 ### Enter own value
 # Give site name
