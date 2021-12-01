@@ -7,7 +7,7 @@ R code to run and submit the analysis for the multi-state models project. The co
 User needs to enter to 4 values noted with "### Enter own value"
 1. Local site same ("site_name")
 2. Administrative censoring date ("last_date")
-3. Directory with the LocalPatientSummary.csv file ("dir.LocPatSum")
+3. Directory with the Phase 2.1 LocalPatientSummary.csv file ("dir.LocPatSum")
 4. Directory for the output (dir.output)
 
 Note: Missing values in the LocalPatientSummary.csv should be given "NA"
@@ -73,4 +73,4 @@ save(final_results ,file = file.path(dir.output, paste(site_name,"_MSM_Results.R
 
 # Submit Results
 
-1. Submit via Slack Channel 
+1. In the interim, please send results to hazard@imbi.uni-freiburg.de
