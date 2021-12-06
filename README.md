@@ -46,17 +46,19 @@ workd1 <- getwd()
 library(readr)
 library(mstate)
 library(dplyr)
-library(sjPlot)
 library(survival)
 library(kableExtra)
 library(lubridate)
-library(table1)
+library(tableone)
+library(papeR)
 library(rmarkdown)
 library(Phase2.1MultStateModPackage)
 
 # Create HTML Report
-render(file.path(system.file("rmd", "4CE_Phase21_MSM.Rmd", package = "Phase2.1MultStateModPackage")), output_file = paste(site_name,"_MSM"),
-       output_dir = dir.output, knit_root_dir = workd1, envir = parent.frame(), params = list(dir_LPS = dir.LocPatSum, admin_censor = last_date))
+render(file.path(system.file("rmd", "4CE_Phase21_MSM.Rmd", package = "Phase2.1MultStateModPackage")),
+       output_file = paste(site_name,"_MSM"), output_dir = dir.output, knit_root_dir = workd1,
+       envir = parent.frame(), params = list(dir_LPS = dir.LocPatSum, admin_censor = last_date,
+                                             site_loc = site_name))
 
 # Create object with aggregated results
 final_results <- save_results()

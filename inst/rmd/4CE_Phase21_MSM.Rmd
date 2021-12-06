@@ -1,8 +1,8 @@
 ---
-title: "4CE Multi-State Analyses"
+title: "4CE Multi-State Model Analyses"
 author: "Derek Hazard"
 date: "22/11/2021"
-output: html_document
+output: pdf_document
 params:
   dir_LPS: 'NULL'
   admin_censor: 'NULL'
@@ -12,6 +12,7 @@ params:
 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE ,include=FALSE}
+
 
 # Prepare Data
 my.data <- prep_data(params$dir_LPS ,
@@ -23,7 +24,8 @@ end_limit <- 50
 
 # Set number of bootstrap samples for confidence interval estimates
 
-num_boot <- 1000
+#num_boot <- 1000
+num_boot <- 2
 
 # Set x limit for plots
 
@@ -63,15 +65,15 @@ my.data_CR <- prep_data_CR(my.data)
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, results = 'asis'}
 
-statement <- c(paste("Administrative censoring on", last_date))
-cat(statement)
+# statement <- c(paste("Administrative censoring on", last_date))
+# cat(statement)
 
 
 ```
 
 
 
-## Table One
+# Table One
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE }
 
@@ -80,16 +82,23 @@ my.data_table1 <- my.data_CR
 my.data_table1$event <- factor(my.data_table1$event, labels = c("censored", "died", "discharged"),  ordered = FALSE)
 #my.data_table1$event <- relevel(my.data_table1$event, ref="0")
 
+my.data_table1$wave <- factor(my.data_table1$wave, labels = c("1: (01.01.20 - 31.07.20)", "2: (01.08.20 - 30.06.21)", "3: (01.07.21 - )"),  ordered = FALSE)
+
 my.data_table1$age_cat <- relevel(my.data_table1$age_cat, ref="12-25")
 my.data_table1$age_cat <- relevel(my.data_table1$age_cat, ref="00-11")
 
+vars <- c("event", "sex", "age_cat", "wave")
 
-table1(~ event  + sex + age_cat + wave + event, data = my.data_table1)
+tableOne <- CreateTableOne(vars = vars, data = my.data_table1)
+
+kableone(tableOne, booktabs = T,linesep = c( "\\hline", "", "", "", "\\hline", "\\hline","", "", "", "", "", "", "\\hline", "", "", ""   ))
+
 
 ```
 
 
-## Full Cohort
+# Full Cohort
+## Plots of Predicted Proportions
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE }
 
@@ -101,9 +110,9 @@ pt_full <- prob.tran.mat(my.data_ext, !is.na(my.data_ext$id), tra)
 # ELOS and probability of long stayer
 LOS_mat_full <- ELOS_mat(pt_full[[1]], end_limit, !is.na(my.data_ext$id), num_boot)
 
-LOS_mat_full[[1]] %>%
-  kbl() %>%
-  kable_styling()
+# LOS_mat_full[[1]] %>%
+#   kbl() %>%
+#   kable_styling()
 
 ```
 
@@ -114,22 +123,28 @@ plot(pt_full[[1]], from = 1,ord = c(4,2,1,3),type= "filled", cols = col_vec,
      lwd= 2, xlab = "Days Since Admission", ylab = "Predicted Probabilities", xlim = c(0,end_limit_plot), cex.lab = 1.25,  
       main= "Patients Starting in Non-Severe")
 
-
-
+# # plot of transition probabilities for patients starting normal ward
+# plot(pt_full[[1]], from = 2,ord = c(4,2,1,3),type= "filled", cols = col_vec,
+#      lwd= 2, xlab = "Days Since Admission", ylab = "Predicted Probabilities", xlim = c(0,end_limit_plot), cex.lab = 1.25,  legend = c("","Severe","Discharge","Death"),
+#  main= "Patients Starting in Severe")
 
 ```
 
+# Full Cohort
+## Length of stay estimates
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE }
 
-# plot of transition probabilities for patients starting normal ward
-plot(pt_full[[1]], from = 2,ord = c(4,2,1,3),type= "filled", cols = col_vec,
-     lwd= 2, xlab = "Days Since Admission", ylab = "Predicted Probabilities", xlim = c(0,end_limit_plot), cex.lab = 1.25,  legend = c("","Severe","Discharge","Death"),
- main= "Patients Starting in Severe")
+LOS_mat_full[[1]] %>%
+  kbl(booktabs = T, linesep = c("", "", "\\hline", "", "")) %>%
+  kable_styling(latex_options = c("hold_position"))
+
 
 ```
 
-## Sex
+\newpage
+# Sex
+## Plots of Predicted Proportions
 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE }
@@ -140,10 +155,6 @@ pt_male <- prob.tran.mat(my.data_ext,my.data_ext$sex == 'male', tra)
 # ELOS and probability of long stayer
 LOS_mat_male <- ELOS_mat(pt_male[[1]], end_limit, my.data_ext$sex == 'male', num_boot)
 
-
-```
-
-```{r, echo=FALSE, message=FALSE, warning=FALSE }
 
 # calculate transition probabilities
 pt_female <- prob.tran.mat(my.data_ext,my.data_ext$sex == 'female', tra)
@@ -156,9 +167,9 @@ LOS_mat_sex <- cbind(LOS_mat_male[[1]], LOS_mat_female[[1]])
 
 colnames(LOS_mat_sex) <- c("Male", "Female")
 
-LOS_mat_sex %>%
-  kbl() %>%
-  kable_styling()
+# LOS_mat_sex %>%
+#   kbl() %>%
+#   kable_styling()
 
 ```
 
@@ -181,7 +192,21 @@ plot(pt_female[[1]], from = 1,ord = c(4,2,1,3),type= "filled", cols = col_vec,
 
 ```
 
-## Age Categories
+# Sex
+## Length of stay estimates
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE }
+
+LOS_mat_sex %>%
+  kbl(booktabs = T, linesep = c("", "", "\\hline", "", "")) %>%
+  kable_styling(latex_options = c("hold_position"))
+
+
+```
+
+
+# Age Categories
+## Plots of Predicted Proportions
 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE }
@@ -276,9 +301,9 @@ LOS_mat_age <- cbind(LOS_mat_age1[[1]], LOS_mat_age2[[1]], LOS_mat_age3[[1]], LO
 
 colnames(LOS_mat_age) <- c("00-11", "12-25", "26-49", "50-69", "70-79", "80+")
 
-LOS_mat_age %>%
-  kbl() %>%
-  kable_styling()
+# LOS_mat_age %>%
+#   kbl() %>%
+#   kable_styling()
 
 
 ```
@@ -309,10 +334,21 @@ plot(p_age6[[1]], from = 1,ord = c(4,2,1,3),type= "filled", cols = col_vec,
 
 ```
 
-## Calendar Time
-### Wave 1: January 1, 2020 - July 31, 2020
-### Wave 2: August 1, 2020 - June 30, 2021
-### Wave 3: July 1, 2021 - 
+# Age Categories
+## Length of stay estimates
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE }
+
+LOS_mat_age %>%
+  kbl(booktabs = T,linesep = c("", "", "\\hline", "", "")) %>%
+  kable_styling(latex_options = c("hold_position","scale_down"))
+
+
+```
+
+\newpage
+# Calendar Time
+## Plots of Predicted Proportions
 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE }
@@ -361,9 +397,9 @@ LOS_mat_wave <- cbind(LOS_mat_wave1[[1]], LOS_mat_wave2[[1]], LOS_mat_wave3[[1]]
 
 colnames(LOS_mat_wave) <- c("Wave 1", "Wave 2", "Wave 3")
 
-LOS_mat_wave %>%
-  kbl() %>%
-  kable_styling()
+# LOS_mat_wave %>%
+#   kbl() %>%
+#   kable_styling()
 
 ```
 
@@ -386,35 +422,60 @@ plot(p_wave3[[1]], from = 1,ord = c(4,2,1,3),type= "filled", cols = col_vec,
 
 ```
 
-## Competing Risks Model
+
+# Calendar time
+## Length of stay estimates
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE }
+
+LOS_mat_wave %>%
+  kbl(booktabs = T, linesep = c("", "", "\\hline", "", "")) %>%
+  kable_styling(latex_options = c("hold_position"))
+
+
+```
+
+
+\newpage
+# Competing Risks Model
 ## Cause Specific Cox Regression
 ### Death
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE }
 
-#Cox_Death <- coxph(Surv( exit, event == 1) ~ age_cat + sex + wave + wave:age_cat + wave:sex,  data= my.data_CR, method = "breslow") 
 
-Cox_Death <- coxph(Surv( exit, event == 1) ~ age_cat + sex + wave ,  data= my.data_CR, method = "breslow") 
+Cox_Death <- coxph(Surv( exit, event == 1) ~ sex + age_cat + wave ,  data= my.data_CR, method = "breslow") 
+prty_Cox_Death <- prettify(summary(Cox_Death))
 
-tab_model(Cox_Death)
+prty_Cox_Death <- prty_Cox_Death %>% mutate_if(is.numeric, ~round(., 3))
+
+prty_Cox_Death <- prty_Cox_Death[,c(1, 3:5, 8:9)]
+
+kable(prty_Cox_Death, booktabs = T, linesep = c("\\hline", "", "", "","", "\\hline", "",""))
 
 ```  
 
-## Competing Risks Model
+# Competing Risks Model
 ## Cause Specific Cox Regression
 ### Discharge
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE }
 
-# Cox_Dis <- coxph(Surv( exit, event == 2) ~ age_cat + sex + wave + wave:age_cat + wave:sex,  data= my.data_CR, method = "breslow") 
 
-Cox_Dis <- coxph(Surv( exit, event == 2) ~ age_cat + sex + wave ,  data= my.data_CR, method = "breslow") 
+Cox_Dis <- coxph(Surv( exit, event == 2) ~ sex + age_cat + wave ,  data= my.data_CR, method = "breslow") 
 
-tab_model(Cox_Dis)
+prty_Cox_Dis <- prettify(summary(Cox_Dis))
+
+prty_Cox_Dis <- prty_Cox_Dis %>% mutate_if(is.numeric, ~round(., 3))
+
+prty_Cox_Dis <- prty_Cox_Dis[,c(1, 3:5, 8:9)]
+
+kable(prty_Cox_Dis, booktabs = T,linesep = c("\\hline", "", "", "","", "\\hline", "",""))
 
 ```  
 
-## Competing Risks Model
+\newpage
+# Competing Risks Model
 ## Fine and Gray Model
 ### Death
 
@@ -431,15 +492,22 @@ my.data_FG_dea <- finegray(Surv(exit, event_FG) ~ . ,  data= my.data_CR,
 
 
 
-Cox_Death_FG <- coxph(Surv(fgstart, fgstop, fgstatus) ~ age_cat + sex + wave, ties = 'breslow', data = my.data_FG_dea, weight= fgwt)
+Cox_Death_FG <- coxph(Surv(fgstart, fgstop, fgstatus) ~ sex + age_cat + wave, ties = 'breslow', data = my.data_FG_dea, weight= fgwt)
   
-tab_model(Cox_Death_FG)
+prty_Cox_Death_FG <- prettify(summary(Cox_Death_FG))
+
+prty_Cox_Death_FG <- prty_Cox_Death_FG %>% mutate_if(is.numeric, ~round(., 3))
+
+prty_Cox_Death_FG <- prty_Cox_Death_FG[,c(1, 3:5, 9:10)]
+
+kable(prty_Cox_Death_FG, booktabs = T, linesep = c("\\hline", "", "", "","", "\\hline", "",""))
+  
 
 
 
 ```  
 
-## Competing Risks Model
+# Competing Risks Model
 ## Fine and Gray Model
 ### Discharge
 
@@ -450,9 +518,16 @@ tab_model(Cox_Death_FG)
 my.data_FG_dis <- finegray(Surv(exit, event_FG ) ~ id + age_cat + sex + wave ,  data= my.data_CR, etype = 2)
 
 
-Cox_Dis_FG <- coxph(Surv(fgstart, fgstop, fgstatus) ~ age_cat + sex + wave, ties = 'breslow', data = my.data_FG_dis, weight= fgwt )
-  
-tab_model(Cox_Dis_FG)
+Cox_Dis_FG <- coxph(Surv(fgstart, fgstop, fgstatus) ~ sex + age_cat + wave, ties = 'breslow', data = my.data_FG_dis, weight= fgwt )
+
+prty_Cox_Dis_FG <- prettify(summary(Cox_Dis_FG))
+
+prty_Cox_Dis_FG <- prty_Cox_Dis_FG %>% mutate_if(is.numeric, ~round(., 3))
+
+prty_Cox_Dis_FG <- prty_Cox_Dis_FG[,c(1, 3:5, 9:10)]
+
+kable(prty_Cox_Dis_FG, booktabs = T,linesep = c("\\hline", "", "", "","", "\\hline", "",""))
+
 
 
 
