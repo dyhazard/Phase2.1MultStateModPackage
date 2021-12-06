@@ -15,6 +15,7 @@ Note: Missing values in the LocalPatientSummary.csv should be given "NA"
 # Run the following script in R 
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE ,include=FALSE}
+
 rm(list=ls())
 
 
@@ -29,17 +30,14 @@ site_name <- "Freiburg"
 last_date <- "2021-10-31"
 
 ### Enter own value
-# Directory with the LocalPatientSummary.csv file (should be .csv format)
+# Directory with the Phase 2.1 LocalPatientSummary.csv file (should be .csv format)
 dir.LocPatSum <- "/Users/dyhazard/Documents/LocalPatientSummary.csv"
 
-
 ### Enter own value
-# Directory for results/output
+# Directory for results
 dir.output <- "/Users/dyhazard/Documents/Output"
 
 
-# Working Directory
-workd1 <- getwd()
 
 
 # Install packages if not already installed
@@ -47,6 +45,7 @@ library(readr)
 library(mstate)
 library(dplyr)
 library(survival)
+options(kableExtra.latex.load_packages = FALSE)
 library(kableExtra)
 library(lubridate)
 library(tableone)
@@ -54,9 +53,9 @@ library(papeR)
 library(rmarkdown)
 library(Phase2.1MultStateModPackage)
 
-# Create HTML Report
+# Create pdf Report
 render(file.path(system.file("rmd", "4CE_Phase21_MSM.Rmd", package = "Phase2.1MultStateModPackage")),
-       output_file = paste(site_name,"_MSM"), output_dir = dir.output, knit_root_dir = workd1,
+       output_file = paste(site_name), output_dir = dir.output,
        envir = parent.frame(), params = list(dir_LPS = dir.LocPatSum, admin_censor = last_date,
                                              site_loc = site_name))
 
@@ -70,9 +69,10 @@ save(final_results ,file = file.path(dir.output, paste(site_name,"_MSM_Results.R
 
 
 
+
 ```
 
 
 # Submit Results
 
-1. In the interim, please send results to hazard@imbi.uni-freiburg.de
+1. Either post on Slack channel or send results to hazard@imbi.uni-freiburg.de
