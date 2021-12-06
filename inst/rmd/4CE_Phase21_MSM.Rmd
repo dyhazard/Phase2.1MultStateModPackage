@@ -7,12 +7,40 @@ params:
   dir_LPS: 'NULL'
   admin_censor: 'NULL'
   site_loc: 'NULL'
+header-includes:
+  - \usepackage{booktabs}
+  - \usepackage{longtable}
+  - \usepackage{array}
+  - \usepackage{multirow}
+  - \usepackage{wrapfig}
+  - \usepackage{float}
+  - \usepackage{colortbl}
+  - \usepackage{pdflscape}
+  - \usepackage{tabu}
+  - \usepackage{threeparttable}
+  - \usepackage{threeparttablex}
+  - \usepackage[normalem]{ulem}
+  - \usepackage{makecell}
+  - \usepackage{xcolor}
+  
 
 ---
 
 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE ,include=FALSE}
+library(readr)
+library(mstate)
+library(dplyr)
+library(survival)
+options(kableExtra.latex.load_packages = FALSE)
+library(kableExtra)
+library(lubridate)
+library(tableone)
+library(papeR)
+library(rmarkdown)
+library(Phase2.1MultStateModPackage)
+
 
 
 # Prepare Data
@@ -66,8 +94,11 @@ my.data_CR <- prep_data_CR(my.data)
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, results = 'asis'}
 
-statement1 <- c(paste("Site =", params$site_loc))
+statement1 <- c(paste("Site =", params$site_loc, ","))
 cat(statement1)
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results = 'asis'}
 
 statement2 <- c(paste("Administrative censoring on", params$admin_censor))
 cat(statement2)
