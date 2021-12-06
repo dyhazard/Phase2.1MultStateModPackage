@@ -6,6 +6,7 @@ output: pdf_document
 params:
   dir_LPS: 'NULL'
   admin_censor: 'NULL'
+  site_loc: 'NULL'
 
 ---
 
@@ -65,8 +66,11 @@ my.data_CR <- prep_data_CR(my.data)
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, results = 'asis'}
 
-# statement <- c(paste("Administrative censoring on", last_date))
-# cat(statement)
+statement1 <- c(paste("Site =", params$site_loc))
+cat(statement1)
+
+statement2 <- c(paste("Administrative censoring on", params$admin_censor))
+cat(statement2)
 
 
 ```
