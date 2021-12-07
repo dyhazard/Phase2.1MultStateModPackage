@@ -126,7 +126,7 @@ vars <- c("event", "sex", "age_cat", "wave")
 
 tableOne <- CreateTableOne(vars = vars, data = my.data_table1)
 
-kableone(tableOne, booktabs = T,linesep = c( "\\hline", "", "", "", "\\hline", "\\hline","", "", "", "", "", "", "\\hline", "", "", ""   ))
+kableone(tableOne, format = 'latex',  booktabs = T,linesep = c( "\\hline", "", "", "", "\\hline", "\\hline","", "", "", "", "", "", "\\hline", "", "", ""   ))
 
 
 ```
@@ -486,7 +486,7 @@ prty_Cox_Death <- prty_Cox_Death %>% mutate_if(is.numeric, ~round(., 3))
 
 prty_Cox_Death <- prty_Cox_Death[,c(1, 3:5, 8:9)]
 
-kable(prty_Cox_Death, booktabs = T, linesep = c("\\hline", "", "", "","", "\\hline", "",""))
+kbl(prty_Cox_Death, booktabs = T, linesep = c("\\hline", "", "", "","", "\\hline", "",""))
 
 ```  
 
@@ -505,7 +505,7 @@ prty_Cox_Dis <- prty_Cox_Dis %>% mutate_if(is.numeric, ~round(., 3))
 
 prty_Cox_Dis <- prty_Cox_Dis[,c(1, 3:5, 8:9)]
 
-kable(prty_Cox_Dis, booktabs = T,linesep = c("\\hline", "", "", "","", "\\hline", "",""))
+kbl(prty_Cox_Dis, booktabs = T,linesep = c("\\hline", "", "", "","", "\\hline", "",""))
 
 ```  
 
@@ -535,7 +535,7 @@ prty_Cox_Death_FG <- prty_Cox_Death_FG %>% mutate_if(is.numeric, ~round(., 3))
 
 prty_Cox_Death_FG <- prty_Cox_Death_FG[,c(1, 3:5, 9:10)]
 
-kable(prty_Cox_Death_FG, booktabs = T, linesep = c("\\hline", "", "", "","", "\\hline", "",""))
+kbl(prty_Cox_Death_FG, booktabs = T, linesep = c("\\hline", "", "", "","", "\\hline", "",""))
   
 
 
@@ -561,7 +561,7 @@ prty_Cox_Dis_FG <- prty_Cox_Dis_FG %>% mutate_if(is.numeric, ~round(., 3))
 
 prty_Cox_Dis_FG <- prty_Cox_Dis_FG[,c(1, 3:5, 9:10)]
 
-kable(prty_Cox_Dis_FG, booktabs = T,linesep = c("\\hline", "", "", "","", "\\hline", "",""))
+kbl(prty_Cox_Dis_FG, booktabs = T,linesep = c("\\hline", "", "", "","", "\\hline", "",""))
 
 
 

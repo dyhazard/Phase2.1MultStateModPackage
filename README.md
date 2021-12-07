@@ -2,7 +2,11 @@
 
 R code to run and submit the analysis for the multi-state models project. The code should take about 30 minutes to run. We appreciate your collaboration!
 
-# Important details to running the R script 
+# Important details to running the R script
+
+## Always RESTART your R session before installing or re-installing the package!
+## The package uses the Phase 2.1 LocalPatientSummary.csv
+## Missing values in the LocalPatientSummary.csv should be given "NA" 
 
 User needs to enter to 4 values noted with "### Enter own value"
 1. Local site same ("site_name")
@@ -10,7 +14,7 @@ User needs to enter to 4 values noted with "### Enter own value"
 3. Directory with the Phase 2.1 LocalPatientSummary.csv file ("dir.LocPatSum")
 4. Directory for the output (dir.output)
 
-Note: Missing values in the LocalPatientSummary.csv should be given "NA"
+Note again: Missing values in the LocalPatientSummary.csv should be given "NA"
 
 # Run the following script in R 
 
@@ -75,4 +79,4 @@ save(final_results ,file = file.path(dir.output, paste(site_name,"_MSM_Results.R
 
 # Submit Results
 
-1. Either post on Slack channel or send results to hazard@imbi.uni-freiburg.de
+1. The code produces a pdf report and an R object list of aggregated results  Either post on Slack channel or send results to hazard@imbi.uni-freiburg.de
