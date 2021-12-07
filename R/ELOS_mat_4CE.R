@@ -52,7 +52,7 @@ ELOS_mat <- function( pt, end_day, sub_condition, boot_n){
   label2 <- paste("Lower bound of 95% Conf. Int.")
   label3 <- paste("Upper bound of 95% Conf. Int.")
   label4 <- paste("Probability of being in the hospital at day", end_day)
-  label5 <- paste("Standard error", end_day)
+  label5 <- paste("Standard error")
   rownames(LOS_mat) <- c(label1, label2, label3, label4, label5)
   return(list(LOS_mat = LOS_mat, CI_hosp = CI_hosp, CI_severe = CI_severe  ))
 
