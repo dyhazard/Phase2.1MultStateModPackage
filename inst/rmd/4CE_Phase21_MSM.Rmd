@@ -53,8 +53,8 @@ end_limit <- 50
 
 # Set number of bootstrap samples for confidence interval estimates
 
-#num_boot <- 1000
-num_boot <- 2
+num_boot <- 1000
+
 
 # Set x limit for plots
 
