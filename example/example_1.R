@@ -1,28 +1,5 @@
-rm(list=ls())
-
-
-devtools::install_github("https://github.com/dyhazard/Phase2.1MultStateModPackage", upgrade=FALSE, ref="master", force=T)
-
-### Enter own value
-# Give site name
-site_name <- "Freiburg"
-
-### Enter own value
-# Give date of administrative censoring (last date data were collected) in year-month-day
-last_date <- "2021-10-31"
-
-### Enter own value
-# Directory with the LocalPatientSummary.csv file (should be .csv format)
-dir.LocPatSum <- "/Users/dyhazard/Documents/LocalPatientSummary.csv"
-
-### Enter own value
-# Directory for results
-dir.output <- "/Users/dyhazard/Documents/Output"
-
-
-
-
 # Install packages if not already installed
+library(devtools)
 library(readr)
 library(mstate)
 library(dplyr)
@@ -33,6 +10,31 @@ library(lubridate)
 library(tableone)
 library(papeR)
 library(rmarkdown)
+
+
+rm(list=ls())
+
+
+devtools::install_github("https://github.com/dyhazard/Phase2.1MultStateModPackage", upgrade=FALSE, ref="master", force=T)
+
+
+### Enter own value
+# Give site name
+site_name <- "Freiburg"
+
+### Enter own value
+# Give date of administrative censoring (last date data were collected) in year-month-day
+last_date <- "2021-10-31"
+
+### Enter own value
+# Directory with the Phase 2.1 LocalPatientSummary.csv file (should be .csv format)
+dir.LocPatSum <- "/Users/dyhazard/Documents/LocalPatientSummary.csv"
+
+### Enter own value
+# Directory for results
+dir.output <- "/Users/dyhazard/Documents/Output"
+
+
 library(Phase2.1MultStateModPackage)
 
 # Create pdf Report
@@ -46,4 +48,7 @@ final_results <- save_results()
 
 # Save results in output directory
 save(final_results ,file = file.path(dir.output, paste(site_name,"_MSM_Results.Rda")))
+
+
+
 

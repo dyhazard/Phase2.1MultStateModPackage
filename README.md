@@ -7,6 +7,7 @@ R code to run and submit the analysis for the multi-state models project. The co
 ## Always RESTART your R session before installing or re-installing the package!
 ## The package uses the Phase 2.1 LocalPatientSummary.csv
 ## Missing values in the LocalPatientSummary.csv should be given "NA" 
+## Make sure R packages listed in the code are already installed
 
 User needs to enter to 4 values noted with "### Enter own value"
 1. Local site same ("site_name")
@@ -20,10 +21,25 @@ Note again: Missing values in the LocalPatientSummary.csv should be given "NA"
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE ,include=FALSE}
 
+# Install packages if not already installed
+library(devtools)
+library(readr)
+library(mstate)
+library(dplyr)
+library(survival)
+options(kableExtra.latex.load_packages = FALSE)
+library(kableExtra)
+library(lubridate)
+library(tableone)
+library(papeR)
+library(rmarkdown)
+
+
 rm(list=ls())
 
 
 devtools::install_github("https://github.com/dyhazard/Phase2.1MultStateModPackage", upgrade=FALSE, ref="master", force=T)
+
 
 ### Enter own value
 # Give site name
@@ -42,19 +58,6 @@ dir.LocPatSum <- "/Users/dyhazard/Documents/LocalPatientSummary.csv"
 dir.output <- "/Users/dyhazard/Documents/Output"
 
 
-
-
-# Install packages if not already installed
-library(readr)
-library(mstate)
-library(dplyr)
-library(survival)
-options(kableExtra.latex.load_packages = FALSE)
-library(kableExtra)
-library(lubridate)
-library(tableone)
-library(papeR)
-library(rmarkdown)
 library(Phase2.1MultStateModPackage)
 
 # Create pdf Report
