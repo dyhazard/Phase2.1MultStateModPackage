@@ -114,7 +114,7 @@ cat(statement2)
 
 my.data_table1 <- my.data_CR
 
-my.data_table1$event <- factor(my.data_table1$event, labels = c("censored", "died", "discharged"),  ordered = FALSE)
+my.data_table1$event <- factor(ifelse(my.data_table1$event == 0,  "censored", ifelse(my.data_table1$event == 1, "died", "discharged")),  ordered = FALSE)
 #my.data_table1$event <- relevel(my.data_table1$event, ref="0")
 
 my.data_table1$wave <- factor(my.data_table1$wave, labels = c("1: (01.01.20 - 31.07.20)", "2: (01.08.20 - 30.06.21)", "3: (01.07.21 - )"),  ordered = FALSE)
